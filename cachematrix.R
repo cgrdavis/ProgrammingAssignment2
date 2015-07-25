@@ -1,15 +1,31 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Program returns the inverse of an array that was entered
+## It caches the value if it was already called and not changed
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+##Function that accepts matrix and performs specific operations on it
+makeCacheMatrix <- function(x=numeric()) {
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) m <<- solve
+  getsolve <- function() m
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
 }
 
-
-## Write a short comment describing this function
-
+## Cacheing function depending on whether or not variable is null
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  m <- x$getsolve()
+    ## Checking to see if m is NULL or not - If not, pull from cache
+    if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setsolve(m)
+  m
 }
